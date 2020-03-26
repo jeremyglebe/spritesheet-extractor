@@ -1,19 +1,10 @@
-import re
-from prompt_toolkit import prompt
-from os import mkdir
-from PIL import Image
-from prompt_toolkit.completion import NestedCompleter, PathCompleter
 import os
+import re
+from PIL import Image
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import PathCompleter
+from os import mkdir
 
-def f(path, d):
-    d[path] = None
-    if os.path.isdir(path):
-        for name in os.listdir(path):
-            d = f(os.path.join(path, name), d)
-    return d
-
-
-# completer = NestedCompleter.from_nested_dict(f('.', {}))
 completer = PathCompleter()
 
 path_to_sheet = prompt(
@@ -32,11 +23,11 @@ except:
 
 sheet = Image.open(path_to_sheet)
 count = 1
-for y in range(rows):
-    for x in range(cols):
-        a = (x + 1) * width
-        b = (y + 1) * height
-        icon = sheet.crop((a - width, b - height, a, b))
+for r in range(rows):
+    for c in range(cols):
+        x = (c + 1) * width
+        y = (r + 1) * height
+        icon = sheet.crop((x - width, y - height, x, y))
         icon.save("{0}/{1}{2}.png".format(folder,
                                           re.split('\\\\|/', folder)[-1], count))
         count += 1
