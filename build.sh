@@ -1,0 +1,1 @@
+pyinstaller --onefile sprite_sheets.py
